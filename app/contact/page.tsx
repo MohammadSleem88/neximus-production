@@ -9,12 +9,9 @@ export default function Page() {
 
   return (
     <div className="relative min-h-screen w-full bg-gradient-to-b from-[#d9eaf0] via-[#eaf3ed] to-[#cbe3d7] text-gray-700 overflow-x-hidden">
-      {/* Header / Navigation */}
       <header className="relative z-10 flex items-center justify-between px-6 py-4">
-        {/* Logo / Brand Name */}
         <div className="flex items-center space-x-2">
           <div className="h-8 w-8 rounded-full border border-gray-400 flex items-center justify-center">
-            {/* Minimal Circle Icon – replace with an actual logo if desired */}
             <div className="h-3 w-3 rounded-full bg-gray-400" />
           </div>
           <span className="font-semibold">Neximus AI</span>
@@ -22,16 +19,16 @@ export default function Page() {
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex space-x-6">
-          <Link href="#about" className="hover:underline">
+          <Link href="/about" className="hover:underline">
             About
           </Link>
-          <Link href="#anna" className="hover:underline">
+          <Link href="/anna" className="hover:underline">
             Anna
           </Link>
-          <Link href="#welcome" className="hover:underline">
+          <Link href="/features" className="hover:underline">
             Features
           </Link>
-          <Link href="#contact" className="hover:underline">
+          <Link href="/contact" className="hover:underline">
             Contact
           </Link>
         </nav>
@@ -56,7 +53,7 @@ export default function Page() {
           <ul className="flex flex-col space-y-2 p-4">
             <li>
               <Link
-                href="#about"
+                href="/about"
                 onClick={() => setMenuOpen(false)}
                 className="block hover:underline"
               >
@@ -65,7 +62,7 @@ export default function Page() {
             </li>
             <li>
               <Link
-                href="#anna"
+                href="/anna"
                 onClick={() => setMenuOpen(false)}
                 className="block hover:underline"
               >
@@ -74,7 +71,7 @@ export default function Page() {
             </li>
             <li>
               <Link
-                href="#welcome"
+                href="/welcome"
                 onClick={() => setMenuOpen(false)}
                 className="block hover:underline"
               >
@@ -83,7 +80,7 @@ export default function Page() {
             </li>
             <li>
               <Link
-                href="#contact"
+                href="/contact"
                 onClick={() => setMenuOpen(false)}
                 className="block hover:underline"
               >

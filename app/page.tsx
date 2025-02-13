@@ -6,10 +6,6 @@ import Image from "next/image";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import React, { SVGProps } from "react";
 
-/* 
-  Simple SVG components for Discord & YouTube.
-  Replace with your own icons if you prefer.
-*/
 function DiscordIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" {...props}>
@@ -31,12 +27,9 @@ export default function HomePage() {
 
   return (
     <div className="relative min-h-screen w-full bg-gradient-to-b from-[#d9eaf0] via-[#eaf3ed] to-[#cbe3d7] text-gray-700 overflow-x-hidden">
-      {/* Header / Navigation */}
       <header className="relative z-10 flex items-center justify-between px-6 py-4">
-        {/* Logo / Brand Name */}
         <div className="flex items-center space-x-2">
           <div className="h-8 w-8 rounded-full border border-gray-400 flex items-center justify-center">
-            {/* Minimal Circle Icon – replace with an actual logo if desired */}
             <div className="h-3 w-3 rounded-full bg-gray-400" />
           </div>
           <span className="font-semibold">Neximus AI</span>
@@ -118,12 +111,11 @@ export default function HomePage() {
 
       {/* Hero Section */}
       <main className="relative z-0 flex flex-col items-center justify-center text-center pt-16 pb-20">
-        {/* Circle Logo (centered) */}
+        {/*  Logo  */}
         <div className="h-20 w-20 rounded-full border border-gray-500 flex items-center justify-center mb-4">
           <div className="h-6 w-6 rounded-full bg-gray-400" />
         </div>
 
-        {/* Title & Subtitle */}
         <h1 className="text-4xl sm:text-5xl font-bold mb-2">
           Neximus <span className="font-light">AI</span>
         </h1>
@@ -131,7 +123,6 @@ export default function HomePage() {
           Endless immersive learning AI games
         </p>
 
-        {/* Begin Button */}
         <Link
           href="#anna"
           className="px-6 py-3 bg-gray-800 text-white rounded-full hover:bg-gray-700 transition-transform hover:scale-105"
@@ -163,7 +154,7 @@ export default function HomePage() {
           <h2 className="text-xl font-semibold mb-4">
             Anna: An Immersive New World
           </h2>
-          {/* Aspect Ratio Container */}
+
           <div className="relative w-full aspect-[16/9] mb-4 overflow-hidden rounded-md">
             <Image
               src="/Anna.png"
@@ -187,7 +178,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Welcome / Changelog Section */}
+      {/* Features */}
       <section
         id="welcome"
         className="relative z-10 mx-auto my-12 max-w-3xl px-6"
