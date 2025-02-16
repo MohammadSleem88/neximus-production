@@ -13,11 +13,6 @@ interface SectionProps {
   children: ReactNode;
 }
 
-interface InfoBlockProps {
-  title: string;
-  children: ReactNode;
-}
-
 interface RoadmapPhaseProps {
   phase: string;
   title: string;
@@ -227,6 +222,25 @@ function MegaFooter() {
 // -----------------------------------------------------------------------
 // Reusable Components
 // -----------------------------------------------------------------------
+interface AboutCardProps {
+  title: string;
+  children: ReactNode;
+}
+
+// A new AboutCard component with a style similar to Roadmap cards
+function AboutCard({ title, children }: AboutCardProps) {
+  return (
+    <div
+      className="p-8 bg-gradient-to-r from-[#151515] via-black to-[#1b1b1b] 
+                    rounded-xl shadow-2xl border border-gray-800 
+                    hover:shadow-purple-800 transition-transform hover:-translate-y-1"
+    >
+      <h3 className="text-2xl font-bold text-white mb-4">{title}</h3>
+      <p className="text-lg text-gray-300 leading-relaxed">{children}</p>
+    </div>
+  );
+}
+
 function Section({ id, className = "", children }: SectionProps) {
   return (
     <section
@@ -289,15 +303,6 @@ function RoadmapPhase({ phase, title, children }: RoadmapPhaseProps) {
         <h3 className="text-2xl font-bold text-white">{title}</h3>
       </div>
       <ul className="space-y-3 pl-6 list-disc text-gray-200">{children}</ul>
-    </div>
-  );
-}
-
-function InfoBlock({ title, children }: InfoBlockProps) {
-  return (
-    <div className="mb-12">
-      <h3 className="text-2xl font-bold text-white mb-4">{title}</h3>
-      <SectionText>{children}</SectionText>
     </div>
   );
 }
@@ -368,54 +373,59 @@ export default function HomePage() {
         </div>
       </Section>
 
-      {/* ABOUT SECTION */}
+      {/* ABOUT SECTION with AboutCard-based layout */}
       <Section id="about">
         <SectionHeader>About the ANNA Project</SectionHeader>
 
-        <InfoBlock title="Mission of the project">
-          The mission of the ANNA project is to revolutionize language learning
-          through the innovative use of AI technologies. This includes adaptive
-          systems that tailor learning experiences to individual needs, natural
-          language processing to facilitate realistic and meaningful
-          interactions, and neural networks to provide dynamic and responsive
-          feedback. By integrating these advanced technologies, ANNA aims to
-          create highly personalized, immersive, and engaging educational
-          experiences that make language acquisition more effective and
-          enjoyable. The project also emphasizes cultural assimilation,
-          seamlessly fitting language learning into a life simulation game to
-          provide a holistic understanding of both language and culture.
-        </InfoBlock>
+        {/* Responsive grid of AboutCards */}
+        <div className="grid gap-8 sm:grid-cols-2">
+          <AboutCard title="Mission of the project">
+            The mission of the ANNA project is to revolutionize language
+            learning through the innovative use of AI technologies. This
+            includes adaptive systems that tailor learning experiences to
+            individual needs, natural language processing to facilitate
+            realistic and meaningful interactions, and neural networks to
+            provide dynamic and responsive feedback. By integrating these
+            advanced technologies, ANNA aims to create highly personalized,
+            immersive, and engaging educational experiences that make language
+            acquisition more effective and enjoyable. The project also
+            emphasizes cultural assimilation, seamlessly fitting language
+            learning into a life simulation game to provide a holistic
+            understanding of both language and culture.
+          </AboutCard>
 
-        <InfoBlock title="AI Integration">
-          AI integration in the ANNA project enhances language learning by
-          employing advanced adaptive natural language processing (NLP). NLP
-          allows for real-time language translation and conversational practice
-          with NPCs, making interactions meaningful and contextually relevant.
-          Neural networks analyze user inputs and surroundings to provide
-          dynamic feedback and personalized educational content. This is
-          achieved through the use of both local and cloud-based AI, including
-          advanced models like ChatGPT, to create an immersive, engaging, and
-          responsive learning environment that adapts to the needs of each
-          learner.
-        </InfoBlock>
+          <AboutCard title="AI Integration">
+            AI integration in the ANNA project enhances language learning by
+            employing advanced adaptive natural language processing (NLP). NLP
+            allows for real-time language translation and conversational
+            practice with NPCs, making interactions meaningful and contextually
+            relevant. Neural networks analyze user inputs and surroundings to
+            provide dynamic feedback and personalized educational content. This
+            is achieved through the use of both local and cloud-based AI,
+            including advanced models like ChatGPT, to create an immersive,
+            engaging, and responsive learning environment that adapts to the
+            needs of each learner.
+          </AboutCard>
 
-        <InfoBlock title="ANNA Methodology">
-          The ANNA methodology combines scientific and psychological aspects to
-          create a personalized and immersive language learning experience.
-          Using AI technology, the approach is rooted in principles of
-          neuroplasticity, enhancing the brain's ability to form new neural
-          connections, and fostering a learning environment that reduces anxiety
-          and boosts confidence through interactive and contextually meaningful
-          activities.
-        </InfoBlock>
+          <AboutCard title="ANNA Methodology">
+            The ANNA methodology combines scientific and psychological aspects
+            to create a personalized and immersive language learning experience.
+            Using AI technology, the approach is rooted in principles of
+            neuroplasticity, enhancing the brain's ability to form new neural
+            connections, and fostering a learning environment that reduces
+            anxiety and boosts confidence through interactive and contextually
+            meaningful activities.
+          </AboutCard>
 
-        <InfoBlock title="Style & Story">
-          The ANNA project features a dynamic captivating story that immerses
-          players in culturally rich environments, encouraging language learning
-          through interactive scenarios and engaging tasks. The graphics are
-          designed in a charming pixel art style, creating a visually appealing
-          and nostalgic experience that appeals to a wide audience.
-        </InfoBlock>
+          <AboutCard title="Style & Story">
+            The ANNA project features a dynamic captivating story that immerses
+            players in culturally rich environments, encouraging language
+            learning through interactive scenarios and engaging tasks. The
+            graphics are designed in a charming pixel art style, creating a
+            visually appealing and nostalgic experience that appeals to a wide
+            audience.
+          </AboutCard>
+        </div>
       </Section>
 
       {/* CONTACT SECTION */}
