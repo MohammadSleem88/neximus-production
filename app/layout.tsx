@@ -11,29 +11,30 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // Manage dark vs. light mode
+  // Keep your dark mode state if you want to toggle .dark class on <html>
   const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
 
   return (
-    // Instead of "translate-x..." or "bg-blue-500", we apply "dark" class conditionally:
     <ClerkProvider>
       <html lang="en" className={isDarkMode ? "dark" : ""}>
         <body
           className={`
-          ${inter.className}
-          min-h-screen
-          transition-colors
-          // Light mode
-          bg-slate-100 text-black
-          // Dark mode
-          dark:bg-black dark:text-white
-        `}
+            ${inter.className}
+            min-h-screen
+            flex flex-col
+            transition-colors
+            bg-slate-100 text-black
+            dark:bg-black dark:text-white
+          `}
         >
-          {/* Now the Navbar can call setIsDarkMode(!isDarkMode) to toggle the .dark class on <html> */}
-          {/* <Navbar/> isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} /> */}
+          {/* Fixed Navbar at the top */}
           <Navbar />
-          <main>{children}</main>
 
+          {/* This container grows to push footer down, and has top padding 
+              so the content is not hidden behind the fixed navbar */}
+          <div className="pt-20 flex-1">{children}</div>
+
+          {/* Footer at the bottom */}
           <MegaFooter />
         </body>
       </html>

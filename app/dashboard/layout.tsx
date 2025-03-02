@@ -8,76 +8,76 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   const { user, isLoaded } = useUser();
   const router = useRouter();
 
-  // If Clerk isn't loaded yet, don't show anything (or show a spinner)
+  // Wait until Clerk fully loads the user
   if (!isLoaded) {
     return (
-      <div className="min-h-screen bg-black text-white flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
         <p>Loading user...</p>
       </div>
     );
   }
 
-  // If user is loaded but null, they're signed out => redirect to sign-in
+  // If user is loaded but null => not signed in => redirect
   if (!user) {
     useEffect(() => {
       router.push("/sign-in");
     }, [router]);
-
-    // Return nothing (or a loading screen) while we redirect
     return (
-      <div className="min-h-screen bg-black text-white flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
         <p>Redirecting to sign in...</p>
       </div>
     );
   }
 
-  // If we want a role check for the entire dashboard:
-  // if (user.publicMetadata.role !== "admin") {
-  //   useEffect(() => {
-  //     router.push("/");
-  //   }, [router]);
-  //   return null;
-  // }
-
-  // Otherwise, render the actual dashboard layout
+  // If user is recognized, render the sidebar + main content
   return (
-    <div className="min-h-screen bg-black text-white flex">
-      {/* Sidebar */}
-      <aside className="w-64 bg-gray-900 p-4 border-r border-gray-800">
-        <h2 className="text-xl font-bold mb-4 uppercase">Dashboard</h2>
-        <nav className="space-y-2">
-          <a href="/dashboard" className="block hover:text-pink-400 transition">
+    <div className="min-h-screen flex">
+      {/* SIDEBAR */}
+      <aside className="w-64 bg-gradient-to-b from-gray-900 to-black p-6 border-r border-gray-800">
+        <h2 className="text-xl font-extrabold uppercase text-pink-400 tracking-wide mb-4">
+          Dashboard
+        </h2>
+        <nav className="space-y-4 text-sm font-semibold uppercase tracking-wider">
+          <a
+            href="/dashboard"
+            className="block text-gray-300 hover:text-pink-400 transition"
+          >
             Home
           </a>
           <a
             href="/dashboard/admin"
-            className="block hover:text-pink-400 transition"
+            className="block text-gray-300 hover:text-pink-400 transition"
           >
             Admin
           </a>
           <a
             href="/dashboard/team"
-            className="block hover:text-pink-400 transition"
+            className="block text-gray-300 hover:text-pink-400 transition"
           >
             Team
           </a>
           <a
             href="/dashboard/billing"
-            className="block hover:text-pink-400 transition"
+            className="block text-gray-300 hover:text-pink-400 transition"
           >
             Billing
           </a>
           <a
             href="/dashboard/shop"
-            className="block hover:text-pink-400 transition"
+            className="block text-gray-300 hover:text-pink-400 transition"
           >
             Shop
           </a>
-          {/* etc. */}
+          <a
+            href="/dashboard/account"
+            className="block text-gray-300 hover:text-pink-400 transition"
+          >
+            Manage Account
+          </a>
         </nav>
       </aside>
 
-      {/* Main Content */}
+      {/* MAIN DASHBOARD CONTENT */}
       <main className="flex-1 p-6">{children}</main>
     </div>
   );
