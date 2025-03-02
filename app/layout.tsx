@@ -28,8 +28,8 @@ export default function RootLayout({
         `}
       >
         {/* Now the Navbar can call setIsDarkMode(!isDarkMode) to toggle the .dark class on <html> */}
-        <Navbar isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
-
+        {/* <Navbar/> isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} /> */}
+        <Navbar />
         <main>{children}</main>
 
         <MegaFooter />
