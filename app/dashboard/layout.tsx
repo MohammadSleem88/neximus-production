@@ -42,7 +42,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
             href="/dashboard"
             className="block text-gray-300 hover:text-pink-400 transition"
           >
-            Home
+            Explore
           </a>
           <a
             href="/dashboard/admin"

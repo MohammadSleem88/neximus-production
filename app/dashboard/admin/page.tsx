@@ -17,8 +17,14 @@ export default function AdminPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-4">Admin Dashboard</h1>
-      <p>Only admins can see this content.</p>
+      <h1 className="text-3xl font-extrabold text-pink-500 uppercase mb-6">
+        Admin
+      </h1>
+      <p className="text-gray-300 text-lg leading-relaxed mb-4">
+        Admin team. Access internal tools, project management features, and
+        more.
+      </p>
+      {/* Additional UI or features can go here */}
     </div>
   );
 }
