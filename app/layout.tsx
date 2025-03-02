@@ -1,4 +1,5 @@
 "use client";
+import { ClerkProvider } from "@clerk/nextjs";
 import "@/app/ui/global.css";
 import { useState } from "react";
 import Navbar from "@/app/components/Navbar";
@@ -15,9 +16,10 @@ export default function RootLayout({
 
   return (
     // Instead of "translate-x..." or "bg-blue-500", we apply "dark" class conditionally:
-    <html lang="en" className={isDarkMode ? "dark" : ""}>
-      <body
-        className={`
+    <ClerkProvider>
+      <html lang="en" className={isDarkMode ? "dark" : ""}>
+        <body
+          className={`
           ${inter.className}
           min-h-screen
           transition-colors
@@ -26,14 +28,15 @@ export default function RootLayout({
           // Dark mode
           dark:bg-black dark:text-white
         `}
-      >
-        {/* Now the Navbar can call setIsDarkMode(!isDarkMode) to toggle the .dark class on <html> */}
-        {/* <Navbar/> isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} /> */}
-        <Navbar />
-        <main>{children}</main>
+        >
+          {/* Now the Navbar can call setIsDarkMode(!isDarkMode) to toggle the .dark class on <html> */}
+          {/* <Navbar/> isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} /> */}
+          <Navbar />
+          <main>{children}</main>
 
-        <MegaFooter />
-      </body>
-    </html>
+          <MegaFooter />
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

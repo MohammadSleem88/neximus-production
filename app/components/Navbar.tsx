@@ -2,12 +2,10 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { SignedIn, SignedOut, useUser, SignOutButton } from "@clerk/nextjs";
 
-// We'll remove references to `isDarkMode` and `setIsDarkMode`
-// since the toggle is commented out. The code compiles fine
-// without them, as we're not using them now.
-
-// Example links (with "News" added)
+// Example links
 const NAV_LINKS = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
@@ -18,7 +16,6 @@ const NAV_LINKS = [
   { label: "Contact", href: "/contact" },
 ];
 
-// Icons for mobile menu
 const MenuIcon = () => (
   <svg className="h-6 w-6 fill-current" viewBox="0 0 24 24">
     <path fillRule="evenodd" d="M4 5h16v2H4V5zm0 6h16v2H4v-2zm0 6h16v2H4v-2z" />
@@ -32,15 +29,17 @@ const CloseIcon = () => (
 );
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false); // mobile menu
+  const [showDropdown, setShowDropdown] = useState(false); // avatar dropdown
 
-  // Comment out the dark mode code
-  /*
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-  };
-  */
+  const router = useRouter();
+  const { user } = useUser();
+
+  // For the avatar image, Clerk often uses `user.imageUrl`.
+  const avatarUrl = user?.imageUrl || "/placeholder.png";
+
+  // Toggles the dropdown under the avatar
+  const toggleDropdown = () => setShowDropdown((prev) => !prev);
 
   return (
     <nav
@@ -70,7 +69,7 @@ export default function Navbar() {
             </div>
           </Link>
 
-          {/* Desktop Nav */}
+          {/* DESKTOP NAV */}
           <div className="hidden md:flex items-center space-x-8">
             {NAV_LINKS.map(({ label, href }) => (
               <Link
@@ -91,67 +90,89 @@ export default function Navbar() {
               </Link>
             ))}
 
-            {/* Login / Sign Up Buttons */}
-            <div className="flex items-center space-x-4">
-              {/* LOGIN: darker, more neutral */}
-              <Link
-                href="/login"
-                className="
-                  px-4 py-2 font-bold text-white 
-                  bg-gray-700 
-                  hover:bg-gray-600 
-                  uppercase tracking-wide 
-                  rounded-sm
-                  transform hover:-translate-y-0.5
-                  transition
-                "
-              >
-                Login
-              </Link>
-
-              {/* SIGN UP: pink/purple gradient */}
-              <Link
-                href="/signup"
-                className="
-                  px-4 py-2 font-bold text-white 
-                  bg-gradient-to-r from-pink-600 to-purple-600
-                  hover:from-pink-500 hover:to-purple-500
-                  uppercase tracking-wide 
-                  rounded-sm
-                  transform hover:-translate-y-0.5
-                  transition
-                "
-              >
-                Sign Up
-              </Link>
-
-              {/* 
-                Dark/Light Toggle: Pill Switch (Commented Out)
-              <div
-                onClick={toggleDarkMode}
-                className="
-                  relative w-14 h-7 flex items-center 
-                  border border-gray-600
-                  rounded-full
-                  p-1
-                  cursor-pointer
-                  bg-gray-300 dark:bg-blue-700
-                  transform hover:-translate-y-0.5
-                  transition
-                "
-              >
-                <div
-                  className={\`
-                    w-5 h-5 rounded-full transition-all
-                    \${isDarkMode ? "translate-x-7 bg-blue-400" : "translate-x-0 bg-gray-500"}
-                  \`}
-                />
+            {/* SignedOut => Show Login/Sign Up */}
+            <SignedOut>
+              <div className="flex items-center space-x-4">
+                <Link
+                  href="/sign-in"
+                  className="
+                    px-4 py-2 font-bold text-white 
+                    bg-gray-700 
+                    hover:bg-gray-600 
+                    uppercase tracking-wide 
+                    rounded-sm
+                    transform hover:-translate-y-0.5
+                    transition
+                  "
+                >
+                  Login
+                </Link>
+                <Link
+                  href="/sign-up"
+                  className="
+                    px-4 py-2 font-bold text-white 
+                    bg-gradient-to-r from-pink-600 to-purple-600
+                    hover:from-pink-500 hover:to-purple-500
+                    uppercase tracking-wide 
+                    rounded-sm
+                    transform hover:-translate-y-0.5
+                    transition
+                  "
+                >
+                  Sign Up
+                </Link>
               </div>
-              */}
-            </div>
+            </SignedOut>
+
+            {/* SignedIn => Show avatar + dropdown */}
+            <SignedIn>
+              {user && (
+                <div className="relative">
+                  <img
+                    src={avatarUrl}
+                    alt="Profile"
+                    className="
+                      w-8 h-8 rounded-full cursor-pointer object-cover 
+                      border border-gray-600
+                    "
+                    onClick={toggleDropdown}
+                  />
+                  {showDropdown && (
+                    <div
+                      className="
+                        absolute right-0 mt-2 w-40 bg-gray-800 border border-gray-700 
+                        rounded-sm shadow-lg
+                      "
+                    >
+                      <ul className="flex flex-col text-sm text-white">
+                        <li
+                          className="
+                            px-4 py-2 hover:bg-gray-700 
+                            cursor-pointer
+                          "
+                          onClick={() => {
+                            setShowDropdown(false);
+                            router.push("/dashboard");
+                          }}
+                        >
+                          Dashboard
+                        </li>
+                        <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
+                          <SignOutButton>
+                            <span onClick={() => setShowDropdown(false)}>
+                              Sign Out
+                            </span>
+                          </SignOutButton>
+                        </li>
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              )}
+            </SignedIn>
           </div>
 
-          {/* Mobile menu toggle */}
+          {/* MOBILE MENU TOGGLE */}
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="
@@ -167,7 +188,7 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Nav */}
+      {/* MOBILE NAV */}
       {isOpen && (
         <div
           className="
@@ -193,66 +214,62 @@ export default function Navbar() {
               </Link>
             ))}
 
-            {/* Login / Sign Up (mobile) */}
-            <div className="flex items-center space-x-4">
-              <Link
-                href="/login"
-                onClick={() => setIsOpen(false)}
-                className="
-                  px-4 py-2 font-bold text-white 
-                  bg-gray-700 
-                  hover:bg-gray-600 
-                  uppercase tracking-wide 
-                  rounded-sm
-                  transform hover:-translate-y-0.5
-                  transition
-                "
-              >
-                Login
-              </Link>
-              <Link
-                href="/signup"
-                onClick={() => setIsOpen(false)}
-                className="
-                  px-4 py-2 font-bold text-white 
-                  bg-gradient-to-r from-pink-600 to-purple-600
-                  hover:from-pink-500 hover:to-purple-500
-                  uppercase tracking-wide 
-                  rounded-sm
-                  transform hover:-translate-y-0.5
-                  transition
-                "
-              >
-                Sign Up
-              </Link>
-            </div>
+            {/* SignedOut => Show Login / Sign Up (mobile) */}
+            <SignedOut>
+              <div className="flex items-center space-x-4">
+                <Link
+                  href="/sign-in"
+                  onClick={() => setIsOpen(false)}
+                  className="
+                    px-4 py-2 font-bold text-white 
+                    bg-gray-700 
+                    hover:bg-gray-600 
+                    uppercase tracking-wide 
+                    rounded-sm
+                    transform hover:-translate-y-0.5
+                    transition
+                  "
+                >
+                  Login
+                </Link>
+                <Link
+                  href="/sign-up"
+                  onClick={() => setIsOpen(false)}
+                  className="
+                    px-4 py-2 font-bold text-white 
+                    bg-gradient-to-r from-pink-600 to-purple-600
+                    hover:from-pink-500 hover:to-purple-500
+                    uppercase tracking-wide 
+                    rounded-sm
+                    transform hover:-translate-y-0.5
+                    transition
+                  "
+                >
+                  Sign Up
+                </Link>
+              </div>
+            </SignedOut>
 
-            {/* 
-              Dark/Light Toggle: Pill Switch (Commented Out)
-            <div
-              onClick={() => {
-                toggleDarkMode();
-                setIsOpen(false);
-              }}
-              className="
-                relative w-14 h-7 flex items-center 
-                border border-gray-600
-                rounded-full
-                p-1
-                cursor-pointer
-                bg-gray-300 dark:bg-blue-700
-                transform hover:-translate-y-0.5
-                transition
-              "
-            >
-              <div
-                className={\`
-                  w-5 h-5 rounded-full transition-all
-                  \${isDarkMode ? "translate-x-7 bg-blue-400" : "translate-x-0 bg-gray-500"}
-                \`}
-              />
-            </div>
-            */}
+            {/* SignedIn => Show avatar + dropdown (mobile) */}
+            <SignedIn>
+              {user && (
+                <div className="relative">
+                  <img
+                    src={avatarUrl}
+                    alt="Profile"
+                    className="
+                      w-8 h-8 rounded-full cursor-pointer object-cover 
+                      border border-gray-600
+                    "
+                    onClick={() => {
+                      setShowDropdown(false);
+                      setIsOpen(false);
+                      router.push("/dashboard");
+                    }}
+                  />
+                </div>
+              )}
+            </SignedIn>
           </div>
         </div>
       )}
