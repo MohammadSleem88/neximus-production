@@ -1,140 +1,173 @@
+// app/components/MegaFooter.tsx
 "use client";
 
 import Link from "next/link";
-// 1) Import the icons from react-icons (choose whichever suits your brand)
 import { FaDiscord, FaYoutube, FaTwitch, FaSteam } from "react-icons/fa";
 
 export default function MegaFooter() {
+  const year = new Date().getFullYear();
+
   return (
-    <footer className="bg-black pt-16 pb-12 px-6 sm:px-8 text-white border-t border-gray-800 mt-16">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
-          {/* Column 1: Brand & Summary */}
-          <div>
-            <h4 className="text-xl font-bold mb-4">NeximusAI</h4>
+    <footer className="relative pt-20 pb-12 px-4 md:px-8 text-white border-t border-white/10 mt-16">
+      {/* Background treatment */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black via-purple-950/20 to-transparent pointer-events-none" />
+      <div className="relative max-w-7xl mx-auto">
+        {/* Top divider */}
+        <div className="h-px bg-gradient-to-r from-transparent via-purple-500/50 to-transparent mb-12" />
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-12">
+          {/* Brand */}
+          <div className="space-y-4">
+            <h3 className="text-2xl font-black bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+              NeximusAI
+            </h3>
             <p className="text-gray-400 text-sm leading-relaxed">
-              an AI-driven language learning game platform that provides
-              personalized, immersive, engaging, and fun language acquisition
-              experiences​​​​.
+              Building the future of AI-driven gaming experiences that connect
+              humanity across cultures.
             </p>
           </div>
 
-          {/* Column 2: Quick Links */}
-          <div>
-            <h4 className="text-xl font-bold mb-4">Explore</h4>
-            <ul className="space-y-2 text-gray-400 text-sm">
+          {/* Company */}
+          <div className="space-y-4">
+            <h4 className="text-white font-semibold">Company</h4>
+            <ul className="space-y-2">
               <li>
-                <Link href="/about" className="hover:text-pink-400">
-                  About
+                <Link
+                  href="/about"
+                  className="text-gray-400 hover:text-purple-300 transition-colors text-sm"
+                >
+                  About Us
                 </Link>
               </li>
               <li>
-                <Link href="/game" className="hover:text-pink-400">
-                  Game
-                </Link>
-              </li>
-              <li>
-                <Link href="/news" className="hover:text-pink-400">
-                  News
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Column 3: Community & Support */}
-          <div>
-            <h4 className="text-xl font-bold mb-4">Community</h4>
-            <ul className="space-y-2 text-gray-400 text-sm">
-              <li>
-                <Link href="/careers" className="hover:text-pink-400">
+                <Link
+                  href="/careers"
+                  className="text-gray-400 hover:text-purple-300 transition-colors text-sm"
+                >
                   Careers
                 </Link>
               </li>
               <li>
-                <Link href="/community" className="hover:text-pink-400">
-                  Community
+                <Link
+                  href="/presskit"
+                  className="text-gray-400 hover:text-purple-300 transition-colors text-sm"
+                >
+                  Press Kit
                 </Link>
               </li>
               <li>
-                <Link href="/support" className="hover:text-pink-400">
-                  Support
-                </Link>
-              </li>
-              <li>
-                <Link href="/presskit" className="hover:text-pink-400">
-                  PressKit
+                <Link
+                  href="/contact"
+                  className="text-gray-400 hover:text-purple-300 transition-colors text-sm"
+                >
+                  Contact
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Column 4: Contact Info */}
-          <div>
-            <h4 className="text-xl font-bold mb-4">Contact</h4>
-            <ul className="space-y-2 text-gray-400 text-sm">
+          {/* Games */}
+          <div className="space-y-4">
+            <h4 className="text-white font-semibold">Games</h4>
+            <ul className="space-y-2">
               <li>
-                <Link href="/contact" className="hover:text-pink-400">
-                  Contact Us
+                <Link
+                  href="/game#living-worlds"
+                  className="text-gray-400 hover:text-purple-300 transition-colors text-sm"
+                >
+                  Living Worlds
                 </Link>
               </li>
-              <li>info@neximus.ai</li>
-              <li>+1 (800) 123-4567</li>
+              <li>
+                <Link
+                  href="/game#the-vault"
+                  className="text-gray-400 hover:text-purple-300 transition-colors text-sm"
+                >
+                  The Vault
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/news"
+                  className="text-gray-400 hover:text-purple-300 transition-colors text-sm"
+                >
+                  Coming Soon
+                </Link>
+              </li>
             </ul>
+          </div>
+
+          {/* Connect */}
+          <div className="space-y-4">
+            <h4 className="text-white font-semibold">Connect</h4>
+            <div className="flex space-x-4">
+              <a
+                href="https://discord.com"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Discord"
+                className="w-10 h-10 rounded-full bg-white/10 hover:bg-purple-500/30 flex items-center justify-center transition-colors"
+              >
+                <FaDiscord className="w-5 h-5 text-gray-300" />
+              </a>
+              <a
+                href="https://youtube.com"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="YouTube"
+                className="w-10 h-10 rounded-full bg-white/10 hover:bg-purple-500/30 flex items-center justify-center transition-colors"
+              >
+                <FaYoutube className="w-5 h-5 text-gray-300" />
+              </a>
+              <a
+                href="https://www.twitch.tv/"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Twitch"
+                className="w-10 h-10 rounded-full bg-white/10 hover:bg-purple-500/30 flex items-center justify-center transition-colors"
+              >
+                <FaTwitch className="w-5 h-5 text-gray-300" />
+              </a>
+              <a
+                href="https://store.steampowered.com/"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Steam"
+                className="w-10 h-10 rounded-full bg-white/10 hover:bg-purple-500/30 flex items-center justify-center transition-colors"
+              >
+                <FaSteam className="w-5 h-5 text-gray-300" />
+              </a>
+            </div>
+            <p className="text-gray-400 text-sm">
+              Join our community for exclusive updates.
+            </p>
           </div>
         </div>
 
         {/* Bottom row */}
-        <div className="border-t border-gray-700 pt-6 flex flex-col md:flex-row items-center justify-between">
-          {/* Left: Copyright */}
-          <p className="text-gray-500 text-sm">
-            © {new Date().getFullYear()} NeximusAI. All rights reserved.
+        <div className="h-px bg-gradient-to-r from-transparent via-purple-500/30 to-transparent mb-8" />
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-gray-500 text-xs">
+            © {year} NeximusAI. All rights reserved.
           </p>
-
-          {/* Middle: Social Icons */}
-          <div className="flex space-x-6 mt-4 md:mt-0">
-            <Link
-              href="https://discord.com"
-              className="text-gray-500 hover:text-pink-400 transition-colors"
-              aria-label="Discord"
-            >
-              <FaDiscord className="w-5 h-5" />
-            </Link>
-            <Link
-              href="https://youtube.com"
-              className="text-gray-500 hover:text-pink-400 transition-colors"
-              aria-label="YouTube"
-            >
-              <FaYoutube className="w-5 h-5" />
-            </Link>
-            <Link
-              href="https://www.twitch.tv/"
-              className="text-gray-500 hover:text-pink-400 transition-colors"
-              aria-label="Twitch"
-            >
-              <FaTwitch className="w-5 h-5" />
-            </Link>
-            <Link
-              href="https://store.steampowered.com/"
-              className="text-gray-500 hover:text-pink-400 transition-colors"
-              aria-label="Steam"
-            >
-              <FaSteam className="w-5 h-5" />
-            </Link>
-          </div>
-
-          {/* Right: Policies (No Refund) */}
-          <div className="flex space-x-4 mt-4 md:mt-0">
+          <div className="flex gap-6">
             <Link
               href="/privacy"
-              className="text-gray-500 hover:text-pink-400 text-sm transition-colors"
+              className="text-gray-500 hover:text-purple-300 text-xs transition-colors"
             >
               Privacy Policy
             </Link>
             <Link
               href="/terms"
-              className="text-gray-500 hover:text-pink-400 text-sm transition-colors"
+              className="text-gray-500 hover:text-purple-300 text-xs transition-colors"
             >
-              Terms & Conditions
+              Terms of Service
+            </Link>
+            <Link
+              href="/cookies"
+              className="text-gray-500 hover:text-purple-300 text-xs transition-colors"
+            >
+              Cookie Policy
             </Link>
           </div>
         </div>
