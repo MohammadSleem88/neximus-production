@@ -1,12 +1,26 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import axios from "axios";
 
-/**
- * This page serves as the main "News" or "Blog" index,
- * listing out articles or categories.
- */
 export default function NewsIndexPage() {
+  const [articles, setArticles] = useState<any[]>([]);
+
+  useEffect(() => {
+    axios
+
+      .get("http://localhost:1337/api/blog-posts")
+      .then((res) => {
+        console.log("All articles response:", res.data);
+
+        setArticles(res.data.data);
+      })
+      .catch((err) => {
+        console.error("Error fetching articles:", err);
+      });
+  }, []);
+
   return (
     <div className="bg-gradient-to-b from-black via-[#0b0b0b] to-gray-900 text-white min-h-screen">
       <section className="max-w-7xl mx-auto px-6 sm:px-8 pt-28 pb-16">
@@ -19,20 +33,24 @@ export default function NewsIndexPage() {
           spoiling details of our upcoming project.
         </p>
 
-        {/* Example list of articles */}
         <div className="space-y-8">
-          {/* Article 1 */}
-          <ArticleCard
-            slug="studio-milestone"
-            title="We Reached a Major Studio Milestone"
-            excerpt="Discover how our team overcame challenges to push AI boundaries..."
-          />
-          {/* Article 2 */}
-          <ArticleCard
-            slug="team-spotlight"
-            title="Meet the Minds Behind NeximusAI"
-            excerpt="An inside look at our creative culture and synergy..."
-          />
+          {articles.map((article) => {
+            const { id, title, slug, content } = article;
+
+            const shortExcerpt =
+              Array.isArray(content) && content.length > 0
+                ? content[0].children?.[0]?.text?.slice(0, 100) + "..."
+                : "No content available";
+
+            return (
+              <ArticleCard
+                key={id}
+                slug={slug}
+                title={title}
+                excerpt={shortExcerpt}
+              />
+            );
+          })}
         </div>
       </section>
     </div>

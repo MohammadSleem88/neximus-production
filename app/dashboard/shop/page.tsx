@@ -9,7 +9,7 @@ export default function ShopPage() {
         </h1>
         <p className="text-gray-300 text-lg leading-relaxed mb-12">
           Discover exclusive content, new releases, and great deals to power up
-          your next adventure—without revealing too many secrets.
+          your next adventure
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
