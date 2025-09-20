@@ -1,3 +1,4 @@
+// Update your app/components/Navbar.tsx
 "use client";
 
 import { useState } from "react";
@@ -5,11 +6,12 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { SignedIn, SignedOut, useUser, SignOutButton } from "@clerk/nextjs";
 
-// Example links
+// Updated navigation links to include Partners
 const NAV_LINKS = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
   { label: "Game", href: "/game" },
+  { label: "Partners", href: "/partners" },
   { label: "Careers", href: "/careers" },
   { label: "PressKit", href: "/presskit" },
   { label: "News", href: "/news" },
