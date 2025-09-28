@@ -1,8 +1,9 @@
-// Update your app/layout.tsx
+// app/layout.tsx
 "use client";
 import { ClerkProvider } from "@clerk/nextjs";
 import "@/app/ui/global.css";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import Navbar from "@/app/components/Navbar";
 import MegaFooter from "@/app/components/MegaFooter";
 import CookieConsent from "@/app/components/CookieConsent";
@@ -14,7 +15,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   // Keep your dark mode state if you want to toggle .dark class on <html>
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
+  const [isDarkMode] = useState<boolean>(true);
+  const pathname = usePathname();
+  const isGate = pathname?.startsWith("/coming-soon");
 
   return (
     <ClerkProvider>
@@ -65,18 +68,13 @@ export default function RootLayout({
             dark:bg-black dark:text-white
           `}
         >
-          {/* Fixed Navbar at the top */}
-          <Navbar />
+          {/* Hide global chrome on the coming-soon page */}
+          {!isGate && <Navbar />}
 
-          {/* This container grows to push footer down, and has top padding 
-              so the content is not hidden behind the fixed navbar */}
-          <div className="pt-20 flex-1">{children}</div>
+          <div className={isGate ? "flex-1" : "pt-20 flex-1"}>{children}</div>
 
-          {/* Footer at the bottom */}
-          <MegaFooter />
-
-          {/* Cookie Consent Banner */}
-          <CookieConsent />
+          {!isGate && <MegaFooter />}
+          {!isGate && <CookieConsent />}
         </body>
       </html>
     </ClerkProvider>
