@@ -1,27 +1,26 @@
 // app/layout.tsx
-"use client";
 import { ClerkProvider } from "@clerk/nextjs";
 import "@/app/ui/global.css";
-import { useState } from "react";
-import { usePathname } from "next/navigation";
 import Navbar from "@/app/components/Navbar";
 import MegaFooter from "@/app/components/MegaFooter";
 import CookieConsent from "@/app/components/CookieConsent";
 import { inter } from "@/app/ui/fonts";
+import { cookies } from "next/headers";
+import type { ReactNode } from "react";
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
-  // Keep your dark mode state if you want to toggle .dark class on <html>
-  const [isDarkMode] = useState<boolean>(true);
-  const pathname = usePathname();
-  const isGate = pathname?.startsWith("/coming-soon");
+  // Next 15: cookies() is async
+  const cookieStore = await cookies();
+  const hasAccess = cookieStore.get("site_access")?.value === "granted";
+  const showChrome = !!hasAccess;
 
   return (
     <ClerkProvider>
-      <html lang="en" className={isDarkMode ? "dark" : ""}>
+      <html lang="en" className="dark">
         <head>
           <meta charSet="utf-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -35,7 +34,7 @@ export default function RootLayout({
           />
           <title>NeximusAI - Gaming in the AI Era</title>
 
-          {/* Open Graph meta tags */}
+          {/* Open Graph */}
           <meta
             property="og:title"
             content="NeximusAI - Gaming in the AI Era"
@@ -47,7 +46,7 @@ export default function RootLayout({
           <meta property="og:type" content="website" />
           <meta property="og:url" content="https://neximusai.com" />
 
-          {/* Twitter Card meta tags */}
+          {/* Twitter Card */}
           <meta name="twitter:card" content="summary_large_image" />
           <meta
             name="twitter:title"
@@ -61,20 +60,19 @@ export default function RootLayout({
         <body
           className={`
             ${inter.className}
-            min-h-screen
-            flex flex-col
-            transition-colors
-            bg-slate-100 text-black
-            dark:bg-black dark:text-white
+            min-h-screen flex flex-col transition-colors
+            bg-slate-100 text-black dark:bg-black dark:text-white
           `}
         >
-          {/* Hide global chrome on the coming-soon page */}
-          {!isGate && <Navbar />}
+          {showChrome && <Navbar />}
 
-          <div className={isGate ? "flex-1" : "pt-20 flex-1"}>{children}</div>
+          {/* Add top padding only when the fixed navbar is visible */}
+          <div className={showChrome ? "pt-20 flex-1" : "flex-1"}>
+            {children}
+          </div>
 
-          {!isGate && <MegaFooter />}
-          {!isGate && <CookieConsent />}
+          {showChrome && <MegaFooter />}
+          {showChrome && <CookieConsent />}
         </body>
       </html>
     </ClerkProvider>
